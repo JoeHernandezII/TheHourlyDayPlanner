@@ -1,7 +1,7 @@
-//var jumbotron = document.querySelector(".jumbotron");
-//var lead = document.querySelector(".lead");
 
-// var currentDate = 
+
+
+$('#currentDay').text(moment().format('dddd, MMMM D YYYY'));
 
 var containerDiv = document.getElementsByClassName("container");
 var timeTable = document.querySelector("time-table");
@@ -10,9 +10,29 @@ var contentInput = document.querySelectorAll(".content-input");
 var time = document.querySelectorAll("#time");
 var localStorage = window.localStorage;
 
+var currentHour = moment().hour();
+
 // Initialize each time slot
 // Iterate over all table rows (TR)...
 $('table.time-table tr').each(function(index) {
+    var hourDisplay = $(this).find('#hour').text();
+    var rowHour = moment(hourDisplay, 'ha').hour();
+    
+    if (currentHour > rowHour) {
+        // If the current hour is greater/afer the hour
+        // represented by this row then add a 'past' 
+        // css class to the tr
+        $(this).addClass('past');
+    } else if (currentHour == rowHour) {
+        // If the current hour is the same hour
+        // represented by this row then add a 'present' 
+        // css class to the tr
+        $(this).addClass('present');
+    } else {
+        // Otherwise assume the future, and add a
+        // 'future' css class to the tr.
+        $(this).addClass('future');
+    }
     
     // Find the text area child of this current row.
     var textarea = $(this).find('textarea');
